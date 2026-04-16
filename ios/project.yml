@@ -26,6 +26,7 @@ targets:
     platform: iOS
     sources:
       - path: CunyiAI/Sources
+      - path: llama.swift/Sources
     resources:
       - path: CunyiAI/Resources
     settings:
@@ -35,5 +36,3 @@ targets:
         GENERATE_INFOPLIST_FILE: false
     dependencies:
       - package: SnapKit
-      - package: llama
-        path: ./llama.swift
