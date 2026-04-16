@@ -1,0 +1,26 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android
+*.apk
+*.aab
+*.dex
+local.properties
+
+# iOS
+*.xcuserstate
+*.xcworkspace
+!ios/*.xcworkspace
+build/
+CunyiAI.doccarchive
+
+# Model files (downloaded at runtime)
+*.gguf
+*.bin
+
+# Misc
+.DS_Store
+*.log
+.env

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">村医AI</string>
+    <string name="welcome_title">欢迎使用村医AI</string>
+    <string name="welcome_desc">基于 Gemma 4 的本地离线 AI 助手，完全在本地运行，保护隐私</string>
+    <string name="start_download">开始下载模型</string>
+    <string name="downloading">下载中</string>
+    <string name="loading_model">正在加载模型…</string>
+    <string name="model_ready">模型已就绪</string>
+    <string name="input_hint">输入您的问题…</string>
+    <string name="send">发送</string>
+    <string name="clear_chat">清空对话</string>
+</resources>
