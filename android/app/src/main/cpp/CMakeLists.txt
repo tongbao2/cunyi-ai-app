@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.28.0)
 project("cunyi_ai")
 
-# LiteRT-LM source (cloned as git submodule or downloaded)
-# This CMake build pulls in LiteRT-LM and compiles the JNI interface
+# LiteRT-LM source (cloned by CI into repo-root/shared-assets/litert-lm)
+# Path is relative to android/app/src/main/cpp/CMakeLists.txt
+#   up 4 levels: android/app/src/main/cpp -> android/app/src/main -> android/app/src -> android/app -> android
+#   then 1 more to repo root, then into shared-assets/litert-lm
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Download & configure LiteRT-LM if not present
-set(LITERT_LM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../shared-assets/litert-lm"
+set(LITERT_LM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../../shared-assets/litert-lm"
     CACHE PATH "Path to LiteRT-LM source")
 
 if(NOT EXISTS "${LITERT_LM_DIR}/CMakeLists.txt")

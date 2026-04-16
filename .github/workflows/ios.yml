@@ -10,31 +10,24 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-latest
     timeout-minutes: 120
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode 15.4
+      - name: Verify Xcode version
         run: |
-          sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
           xcodebuild -version
-
-      - name: Install XcodeGen (compatible version)
-        run: |
-          # XcodeGen 2.20.0 是支持 Xcode 15 的最后一个稳定版
-          curl -fsSL https://github.com/yonaskolb/XcodeGen/releases/download/2.20.0/XcodeGen-2.20.0.tar.bz2 -o /tmp/xcodegen.tar.bz2
-          mkdir -p xcodegen_tmp
-          tar xjf /tmp/xcodegen.tar.bz2 -C xcodegen_tmp
-          sudo mv xcodegen_tmp/$(uname)/xcodegen /usr/local/bin/xcodegen
+          which xcodegen || brew install xcodegen
           xcodegen --version
 
       - name: Generate Xcode project
         run: |
           cd ios
           xcodegen generate
+          ls -la CunyiAI.xcodeproj
 
       - name: Build iOS App
         run: |
@@ -42,6 +35,6 @@ jobs:
           xcodebuild -project CunyiAI.xcodeproj \
             -scheme CunyiAI \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
             build \
             CODE_SIGNING_ALLOWED=NO
