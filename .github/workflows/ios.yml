@@ -27,14 +27,15 @@ jobs:
         run: |
           cd ios
           xcodegen generate
-          ls -la CunyiAI.xcodeproj
 
       - name: Build iOS App
         run: |
           cd ios
+          # Use generic iOS Simulator (any available device)
           xcodebuild -project CunyiAI.xcodeproj \
             -scheme CunyiAI \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination 'generic/platform=iOS Simulator' \
+            -destination-timeout 300 \
             build \
             CODE_SIGNING_ALLOWED=NO
