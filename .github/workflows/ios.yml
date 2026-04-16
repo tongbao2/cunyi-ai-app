@@ -17,15 +17,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Clone llmfarm package locally
+        run: |
+          git clone --depth=1 --branch main \
+            https://github.com/modelcontextprotocol/llmfarm.git \
+            llmfarm_local
+          ls llmfarm_local/
+
       - name: Verify Xcode version
         run: |
           xcodebuild -version
           which xcodegen || brew install xcodegen
           xcodegen --version
 
-      - name: Generate Xcode project
+      - name: Generate Xcode project (local llmfarm)
         run: |
           cd ios
+          # Patch project.yml to use local llmfarm path
+          sed -i '' \
+            's|url: https://github.com/modelcontextprotocol/llmfarm.git|path: ../llmfarm_local|' \
+            project.yml
+          cat project.yml | grep -A2 llmfarm
           xcodegen generate
           ls -la CunyiAI.xcodeproj
 
