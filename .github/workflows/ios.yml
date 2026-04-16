@@ -11,21 +11,11 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    timeout-minutes: 120
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-
-      - name: Clone llmfarm with token auth
-        run: |
-          GH_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-          git clone --depth=1 --branch main \
-            "https://x-access-token:${GH_TOKEN}@github.com/modelcontextprotocol/llmfarm.git" \
-            llmfarm_local
-          ls llmfarm_local/
 
       - name: Verify Xcode version
         run: |
@@ -33,15 +23,11 @@ jobs:
           which xcodegen || brew install xcodegen
           xcodegen --version
 
-      - name: Generate Xcode project (local llmfarm)
+      - name: Generate Xcode project
         run: |
           cd ios
-          # Use local package path instead of URL
-          sed -i '' \
-            's|url: https://github.com/modelcontextprotocol/llmfarm.git|path: ../llmfarm_local|' \
-            project.yml
-          grep -A2 llmfarm project.yml
           xcodegen generate
+          ls -la CunyiAI.xcodeproj
 
       - name: Build iOS App
         run: |

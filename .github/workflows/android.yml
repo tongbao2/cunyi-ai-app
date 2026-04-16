@@ -52,8 +52,7 @@ jobs:
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
-        env:
-          JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.18_12/x64
+        # Do NOT override JAVA_HOME - let setup-java set it
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4

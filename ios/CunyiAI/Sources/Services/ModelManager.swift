@@ -1,6 +1,6 @@
 import Foundation
 import Combine
-import llmfarm_core
+import llama
 
 /// 村医AI - 模型管理器
 /// 首次启动自动下载 GGUF 模型，通过 llmfarm_core（llama.cpp Swift 绑定）运行
