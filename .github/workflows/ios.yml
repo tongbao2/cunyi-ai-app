@@ -1,0 +1,61 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [main]
+    paths: ['ios/**', '.github/workflows/ios.yml']
+  pull_request:
+    branches: [main]
+    paths: ['ios/**']
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+
+      - name: Generate Xcode project
+        run: |
+          cd ios
+          xcodegen generate
+
+      - name: Resolve dependencies
+        run: |
+          cd ios
+          xcodebuild -resolvePackageDependencies -project CunyiAI.xcodeproj -scheme CunyiAI
+
+      - name: Build iOS App (Simulator)
+        run: |
+          cd ios
+          xcodebuild -project CunyiAI.xcodeproj \
+            -scheme CunyiAI \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            build \
+            CODE_SIGNING_ALLOWED=NO
+        env:
+          DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+
+      - name: Upload build log artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build-log
+          path: ~/Library/Logs/DiagnosticReports/
+          retention-days: 7
+
+      - name: Tag release (on version tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          gh release create ${{ github.ref_name }} \
+            --title "村医AI iOS v${{ github.ref_name }}" \
+            --notes "村医AI iOS 自动构建版本"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
