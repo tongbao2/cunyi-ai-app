@@ -1,7 +1,7 @@
 // CunyiAI AppDelegate
+// @main 已移至 CunYIApp.swift（SwiftUI App protocol）
 import UIKit
 
-@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
